@@ -30,7 +30,7 @@ You will require:
 
 # Configuration
 
-The `python.py` file contains a few constants, you will need to update these
+The `config.py` file contains a few constants, you will need to update these
 
 To begin, plug in your removable drive to your Pi, and unplug any other removable drive. Then, open a terminal and enter the following commands:
 
@@ -44,8 +44,11 @@ The remaining drives as system partitions, such as boot.
 Update the config consts as follows:
 
 `DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above  
-`DRIVE_BLACK_LIST` - Enter the `mountpoint` property of ALL the disks returned above  
-`FILE_TYPE_WHITE_LIST` - This should be able to be left as is, but if you shoot format not included, add the file extension here  
+  
+`DRIVE_BLACK_LIST` - Enter the `mountpoint` property of ALL the disks returned above. This will exclude them as a backup option  
+  
+`FILE_TYPE_WHITE_LIST` - If you shoot in a file format not included, add the file extension here  
+  
 
 
 # Use
