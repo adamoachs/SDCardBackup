@@ -10,7 +10,7 @@ from form import BackupForm
 def get_drives():
     """Get list of mounted drives"""
     drives = psutil.disk_partitions()
-    return [drive.device for drive in drives if drive.device not in config.DRIVE_BLACK_LIST]
+    return [drive.mountpoint for drive in drives if drive.mountpoint not in config.DRIVE_BLACK_LIST]
 
 options = get_drives()
 if len(options) == 0:

@@ -1,6 +1,7 @@
 """GUI functionality"""
 
 from tkinter import Tk, Label, OptionMenu, StringVar, Button
+from threading import Thread
 from file_handler import FileHandler
 import config
 
@@ -41,5 +42,23 @@ class BackupForm:
 
     def do_copy(self):
         """Handler for button click"""
-        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY)
-        fh.do_copy()
+        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY,
+                         self.on_file_copied_handler, self.on_file_error_handler,
+                         self.on_backup_finished_handler, self.on_backup_error_handler)
+        thread = Thread(target = fh.do_copy)
+        self.button_start_copy["state"] = "disabled"
+        thread.start()
+
+    def on_file_copied_handler(self, file, files_done, files_total):
+        """Callback ran per file finished"""
+        print(f"Copied {file}. {files_done}/{files_total}")
+
+    def on_file_error_handler(self, file):
+        """Callback when encountering an error with a single file"""
+
+    def on_backup_finished_handler(self):
+        """Callback when copy job is finished"""
+        self.button_start_copy["state"] = "normal"
+
+    def on_backup_error_handler(self):
+        """Callback when the backup job as a whole fails"""

@@ -8,11 +8,16 @@ import config
 
 class FileHandler:
     """This class handles copying files from one dir to another"""
-    def __init__(self, from_dir, to_dir):
+    def __init__(self, from_dir, to_dir, on_file_copied, on_file_error,
+                 on_backup_finished, on_backup_error):
         self.from_dir = from_dir
         self.to_dir = to_dir
+        self.on_file_copied = on_file_copied
+        self.on_file_error = on_file_error
+        self.on_backup_finished = on_backup_finished
+        self.on_backup_error = on_backup_error
 
-    def do_copy(self):
+    def do_copy(self, ):
         """Start the copy process"""
         files = self.__get_files_to_copy()
         self.__copy_files(files)
@@ -29,7 +34,15 @@ class FileHandler:
         path = Path(config.DESTINATION_ROOT_DIRECTORY) / date
         os.makedirs(path, exist_ok = True)
 
-        for file in files:
-
-            shutil.copyfile(file, path / file.name)
+        try:
+            for file in files:
+                try:
+                    shutil.copyfile(file, path / file.name)
+                    self.on_file_copied(file, files.index(file) + 1, len(files))
+                except Exception:
+                    self.on_file_error()
+        except Exception:
+            self.on_backup_error()
+        finally:
+            self.on_backup_finished()
         return
