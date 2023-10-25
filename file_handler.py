@@ -39,10 +39,10 @@ class FileHandler:
                 try:
                     shutil.copyfile(file, path / file.name)
                     self.on_file_copied(file, files.index(file) + 1, len(files))
-                except Exception:
-                    self.on_file_error()
-        except Exception:
-            self.on_backup_error()
+                except Exception as ex:
+                    self.on_file_error(file, ex)
+        except Exception as ex:
+            self.on_backup_error(ex)
         finally:
             self.on_backup_finished()
         return

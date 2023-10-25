@@ -53,12 +53,12 @@ class BackupForm:
         """Callback ran per file finished"""
         print(f"Copied {file}. {files_done}/{files_total}")
 
-    def on_file_error_handler(self, file):
+    def on_file_error_handler(self, file, exception):
         """Callback when encountering an error with a single file"""
 
     def on_backup_finished_handler(self):
         """Callback when copy job is finished"""
         self.button_start_copy["state"] = "normal"
 
-    def on_backup_error_handler(self):
+    def on_backup_error_handler(self, exception):
         """Callback when the backup job as a whole fails"""

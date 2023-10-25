@@ -43,9 +43,9 @@ One of these should your external drive. If it is not listed, ensure it is forma
 The remaining drives as system partitions, such as boot.
 Update the config consts as follows:
 
-`DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above
-`DRIVE_BLACK_LIST` - Enter the `mountpoint` property of ALL the disks returned above
-`FILE_TYPE_WHITE_LIST` - This should be able to be left as is, but if you shoot format not included, add the file extension here
+`DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above  
+`DRIVE_BLACK_LIST` - Enter the `mountpoint` property of ALL the disks returned above  
+`FILE_TYPE_WHITE_LIST` - This should be able to be left as is, but if you shoot format not included, add the file extension here  
 
 
 # Use
