@@ -26,6 +26,10 @@ You will require:
 2. Install a Pi-compatible Linux distro of your choice
 3. Install the touchscreen driver per manufacturer's instruction
 4. TODO: steps on cloning repo
+5. Open a terminal and run the following commands:  
+
+    pip install psutil
+    pip install Pillow
 
 
 # Configuration

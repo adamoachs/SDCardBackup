@@ -7,15 +7,13 @@ import config
 
 class BackupForm:
     """GUI functionality"""
-    def __init__(self, options):
 
+    def __init__(self, options):
         root = Tk()
         root.geometry("400x200")
+        root.title("Card Backup")
         root.maxsize(400, 200)
         root.minsize(400, 200)
-
-        label_title = Label(root, text = "Card Backup")
-        label_title.grid(row = 0, column = 0, columnspan = 4, padx = 5, pady = 5, sticky = "nwse")
 
         var = StringVar(root)
         var.set("Select Card")
@@ -42,7 +40,7 @@ class BackupForm:
 
     def do_copy(self):
         """Handler for button click"""
-        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY,
+        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY, 2,
                          self.on_file_copied_handler, self.on_file_error_handler,
                          self.on_backup_finished_handler, self.on_backup_error_handler)
         thread = Thread(target = fh.do_copy)
