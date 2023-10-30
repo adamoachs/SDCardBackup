@@ -9,42 +9,62 @@ class BackupForm:
     """GUI functionality"""
 
     def __init__(self, options):
+
+        # main window
         root = Tk()
         root.geometry("400x200")
         root.title("Card Backup")
         root.maxsize(400, 200)
         root.minsize(400, 200)
+        
 
+        # Card select dropdown
         var = StringVar(root)
         var.set("Select Card")
-        source = OptionMenu(root, var, *options, command = self.source_selected)
-        source.grid(row = 1, column = 0, columnspan = 2, padx = 5, pady = 5, sticky = "w")
+        source = OptionMenu(root, var, *options, command = self.__source_selected)
+        source.grid(row = 0, column = 0, rowspan = 2, columnspan = 5,
+                    padx = 5, pady = 15, sticky = "we")
+        
+        # hours label
+        hours_label = Label(root, text = "Backup window in hours")
+        hours_label.grid(row = 2, column = 0, rowspan = 2, columnspan = 2,
+                         padx = 5, pady = 15 )
+        
+        # hours entry
+        # tkinter's spinbox class doesn't look to have any option to have buttons on the side
+        # so we'll build our own with a label and a few buttons
+        hours_minus = Button(root, text = "-", command = self.__hours_minus)
+        hours_minus.grid(row = 2, column = 2, padx = 5, pady = 15)
+        hours_value = StringVar(root, format(config.HOURS_DEFAULT, ".1f"))
+        hours_value_label = Label(root, textvariable = hours_value)
+        hours_value_label.grid(row = 2, column = 3, padx = 1, pady = 15)
+        hours_plus = Button(root, text = "+", command = self.__hours_plus)
+        hours_plus.grid(row = 2, column = 4, padx = 5, pady = 15)
 
+        # Start copy button
         button_start_copy = Button(root, text = "Start copy",
-                       command = self.do_copy, state = "disabled")
-        button_start_copy.grid(row = 1, column = 2, columnspan = 2,
-                               padx = 5, pady = 5, sticky = "e")
+                       command = self.__do_copy, state = "disabled")
+        button_start_copy.grid(row = 6, column = 0, rowspan = 2, columnspan = 5,
+                               padx = 5, pady = 15, sticky = "we")
 
         self.root = root
         self.button_start_copy = button_start_copy
         self.source_selection = None
+        self.hours_value = hours_value
+        self.backup_in_progress = False
 
     def show(self):
         """Show the form"""
         self.root.mainloop()
 
-    def source_selected(self, selection):
-        """Callback for handling source OptionMenu change"""
-        self.source_selection = selection
-        self.button_start_copy["state"] = "normal"
-
-    def do_copy(self):
+    def __do_copy(self):
         """Handler for button click"""
         fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY, 2,
                          self.on_file_copied_handler, self.on_file_error_handler,
                          self.on_backup_finished_handler, self.on_backup_error_handler)
         thread = Thread(target = fh.do_copy)
         self.button_start_copy["state"] = "disabled"
+        self.backup_in_progress = True
         thread.start()
 
     def on_file_copied_handler(self, file, files_done, files_total):
@@ -53,10 +73,40 @@ class BackupForm:
 
     def on_file_error_handler(self, file, exception):
         """Callback when encountering an error with a single file"""
+        # todo: error handle
+        print(f"Error on {file}: {exception}")
 
     def on_backup_finished_handler(self):
         """Callback when copy job is finished"""
-        self.button_start_copy["state"] = "normal"
+        self.backup_in_progress = False
+        self.__check_button_state()
 
     def on_backup_error_handler(self, exception):
         """Callback when the backup job as a whole fails"""
+        # todo: error handle
+        print(f"Error on backup: {exception}")
+        self.backup_in_progress = False
+        self.__check_button_state()
+
+    def __source_selected(self, selection):
+        """Callback for handling source OptionMenu change"""
+        self.source_selection = selection
+        self.__check_button_state()
+
+    def __hours_plus(self):
+        self.__hours_update(config.HOURS_INCREMENT)
+
+    def __hours_minus(self):
+        self.__hours_update(-config.HOURS_INCREMENT)
+
+    def __hours_update(self, val):
+        hours = float(self.hours_value.get())
+        hours += val
+        hours = max(config.HOURS_MIN, min(hours, config.HOURS_MAX))
+        self.hours_value.set(format(hours, ".1f"))
+
+    def __check_button_state(self):
+        if self.source_selection is None or self.backup_in_progress is True:
+            self.button_start_copy["state"] = "disabled"
+        else:
+            self.button_start_copy["state"] = "normal"

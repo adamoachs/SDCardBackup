@@ -26,13 +26,14 @@ class FileHandler:
         if len(files) == 0:
             return
 
+        # only filter by date if a filter has been provided, and the photos actually have the appropriate EXIF data
         if self.hours_filter is not None and self.__file_has_date_taken(files[0]):
             files = self.__filter_photos_by_date_taken(files)
 
         self.__copy_files(files)
 
     def __get_files_to_copy(self):
-        """Returns string array of file paths"""
+        """Returns string array of all file paths"""
         root_dir = Path(self.from_dir)
         files = list(root_dir.glob("**/*"))
         return [file for file in files if file.suffix.lower() in config.FILE_TYPE_WHITE_LIST]
@@ -60,9 +61,9 @@ class FileHandler:
         # https://exiv2.org/tags.html
         with Image.open(file) as img:
             if not img.tag:
-                raise Exception('Image {0} does not have EXIF data.'.format(file))
+                raise Exception(f'Image {file} does not have EXIF data.')
             if not 36867 in img.tag:
-                raise Exception('Image {0} does not have DateTimeOriginal EXIF tag.'.format(file))
+                raise Exception(f'Image {file} does not have DateTimeOriginal EXIF tag.')
 
             date =  datetime.strptime(img.tag[36867][0], "%Y:%m:%d %H:%M:%S")
             return date
@@ -82,5 +83,7 @@ class FileHandler:
 
     def __filter_photos_by_date_taken(self, files):
         """Filter photots list to photos taken after (latest date - self.hours_filter)"""
+        # we filter based on the time most recent photo was taken, rather than datetime.now()
+        # this prevents issues when the camera's date isn't set
         filter_date = self.__get_latest_date_taken(files) - timedelta(hours = self.hours_filter)
         return [file for file in files if self.__get_date_taken(file) >= filter_date]
