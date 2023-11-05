@@ -123,5 +123,5 @@ class BackupForm:
             cmd = f"umount \"{card}\""
         os.system(cmd)
         messagebox.showinfo(title = "Finished",
-            message = f"Successfully eject card {card}")
+            message = f"Safely ejected card {card}")
         exit()
