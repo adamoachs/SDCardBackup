@@ -47,7 +47,7 @@ class FileHandler:
         try:
             for file in files:
                 try:
-                    shutil.copyfile(file, path / file.name)
+                    shutil.copy2(file, path / file.name)
                     self.on_file_copied(file, files.index(file) + 1, len(files))
                 except Exception as ex:
                     error_count += 1
