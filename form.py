@@ -2,6 +2,8 @@
 
 from tkinter import Tk, Label, OptionMenu, StringVar, Button, messagebox
 from threading import Thread
+import os
+import platform
 from file_handler import FileHandler
 import config
 
@@ -81,12 +83,14 @@ class BackupForm:
         self.__check_button_reset()
         messagebox.showinfo(title = "Finished",
             message = f"Successfully copied {file_successful_count} of {file_total_colunt} photos")
+        self.__eject_card()
 
     def on_backup_error_handler(self, exception):
         """Callback when the backup job as a whole fails"""
         messagebox.showerror(title = "Error", message = f"Backup job failed: {exception}")
         self.backup_in_progress = False
         self.__check_button_reset()
+        self.__eject_card()
 
     def __source_selected(self, selection):
         """Callback for handling source OptionMenu change"""
@@ -109,3 +113,14 @@ class BackupForm:
         if self.source_selection is not None or self.backup_in_progress is False:
             self.button_start_copy["state"] = "normal"
             self.button_start_copy["text"] = "Sart copy"
+
+    def __eject_card(self):
+        card = self.source_selection
+        plat = platform.system().lower()
+        if plat == "windows":
+            return
+        else:
+            cmd = f"umount {card}"
+        os.system(cmd)
+        messagebox.showinfo(title = "Finished",
+            message = f"Successfully eject card {card}")
