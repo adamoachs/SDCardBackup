@@ -84,6 +84,7 @@ class BackupForm:
         messagebox.showinfo(title = "Finished",
             message = f"Successfully copied {file_successful_count} of {file_total_colunt} photos")
         self.__eject_card()
+        self.__close()
 
     def on_backup_error_handler(self, exception):
         """Callback when the backup job as a whole fails"""
@@ -91,6 +92,7 @@ class BackupForm:
         self.backup_in_progress = False
         self.__check_button_reset()
         self.__eject_card()
+        self.__close()
 
     def __source_selected(self, selection):
         """Callback for handling source OptionMenu change"""
@@ -121,7 +123,9 @@ class BackupForm:
             return
         else:
             cmd = f"umount \"{card}\""
-        os.system(cmd)
-        messagebox.showinfo(title = "Finished",
-            message = f"Safely ejected card {card}")
-        exit()
+            os.system(cmd)
+            messagebox.showinfo(title = "Finished",
+                message = f"Safely ejected card {card}")
+          
+    def __close(self):
+        self.root.quit()

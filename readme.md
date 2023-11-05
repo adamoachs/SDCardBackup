@@ -65,4 +65,7 @@ Create a .desktop shortcut file on the desktop with the following command:
 1. After plugging in external drive and card, run the script creating in the Shortcut step
 2. Choose your card from the "Select one" dropdown
 3. Select how many hours worth of photos you want to back up
-4. Click copy.
+4. Click Start Copy.
+5. The Start Copy button will disable, and the text will change to monitor progress as files are copied over.
+6. When the backup job is finished, you will a message telling you how many files were copied, and a message that your card was safely ejected
+7. Remove your card and carry on with your door
