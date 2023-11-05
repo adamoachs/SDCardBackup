@@ -1,6 +1,6 @@
 """GUI functionality"""
 
-from tkinter import Tk, Label, OptionMenu, StringVar, Button
+from tkinter import Tk, Label, OptionMenu, StringVar, Button, messagebox
 from threading import Thread
 from file_handler import FileHandler
 import config
@@ -16,7 +16,6 @@ class BackupForm:
         root.title("Card Backup")
         root.maxsize(400, 200)
         root.minsize(400, 200)
-        
 
         # Card select dropdown
         var = StringVar(root)
@@ -24,12 +23,12 @@ class BackupForm:
         source = OptionMenu(root, var, *options, command = self.__source_selected)
         source.grid(row = 0, column = 0, rowspan = 2, columnspan = 5,
                     padx = 5, pady = 15, sticky = "we")
-        
+
         # hours label
         hours_label = Label(root, text = "Backup window in hours")
         hours_label.grid(row = 2, column = 0, rowspan = 2, columnspan = 2,
                          padx = 5, pady = 15 )
-        
+
         # hours entry
         # tkinter's spinbox class doesn't look to have any option to have buttons on the side
         # so we'll build our own with a label and a few buttons
@@ -64,34 +63,35 @@ class BackupForm:
                          self.on_backup_finished_handler, self.on_backup_error_handler)
         thread = Thread(target = fh.do_copy)
         self.button_start_copy["state"] = "disabled"
+        self.button_start_copy["text"] = "Copying..."
         self.backup_in_progress = True
         thread.start()
 
     def on_file_copied_handler(self, file, files_done, files_total):
         """Callback ran per file finished"""
-        print(f"Copied {file}. {files_done}/{files_total}")
+        self.button_start_copy["text"] = f"Copying... {files_done}/{files_total}"
 
     def on_file_error_handler(self, file, exception):
         """Callback when encountering an error with a single file"""
-        # todo: error handle
-        print(f"Error on {file}: {exception}")
+        messagebox.showerror(title = "Error", message = f"Could not copy {file}: {exception}")
 
-    def on_backup_finished_handler(self):
+    def on_backup_finished_handler(self, file_successful_count, file_total_colunt):
         """Callback when copy job is finished"""
         self.backup_in_progress = False
-        self.__check_button_state()
+        self.__check_button_reset()
+        messagebox.showinfo(title = "Finished",
+            message = f"Successfully copied {file_successful_count} of {file_total_colunt} photos")
 
     def on_backup_error_handler(self, exception):
         """Callback when the backup job as a whole fails"""
-        # todo: error handle
-        print(f"Error on backup: {exception}")
+        messagebox.showerror(title = "Error", message = f"Backup job failed: {exception}")
         self.backup_in_progress = False
-        self.__check_button_state()
+        self.__check_button_reset()
 
     def __source_selected(self, selection):
         """Callback for handling source OptionMenu change"""
         self.source_selection = selection
-        self.__check_button_state()
+        self.__check_button_reset()
 
     def __hours_plus(self):
         self.__hours_update(config.HOURS_INCREMENT)
@@ -105,8 +105,7 @@ class BackupForm:
         hours = max(config.HOURS_MIN, min(hours, config.HOURS_MAX))
         self.hours_value.set(format(hours, ".1f"))
 
-    def __check_button_state(self):
-        if self.source_selection is None or self.backup_in_progress is True:
-            self.button_start_copy["state"] = "disabled"
-        else:
+    def __check_button_reset(self):
+        if self.source_selection is not None or self.backup_in_progress is False:
             self.button_start_copy["state"] = "normal"
+            self.button_start_copy["text"] = "Sart copy"

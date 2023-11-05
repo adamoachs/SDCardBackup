@@ -26,7 +26,8 @@ class FileHandler:
         if len(files) == 0:
             return
 
-        # only filter by date if a filter has been provided, and the photos actually have the appropriate EXIF data
+        # only filter by date if a filter has been provided,
+        # and the photos actually have the appropriate EXIF data
         if self.hours_filter is not None and self.__file_has_date_taken(files[0]):
             files = self.__filter_photos_by_date_taken(files)
 
@@ -42,18 +43,20 @@ class FileHandler:
         date = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         path = Path(config.DESTINATION_ROOT_DIRECTORY) / date
         os.makedirs(path, exist_ok = True)
-
+        error_count = 0
         try:
             for file in files:
                 try:
                     shutil.copyfile(file, path / file.name)
                     self.on_file_copied(file, files.index(file) + 1, len(files))
                 except Exception as ex:
+                    error_count += 1
                     self.on_file_error(file, ex)
         except Exception as ex:
             self.on_backup_error(ex)
         finally:
-            self.on_backup_finished()
+            file_count = len(files)
+            self.on_backup_finished(file_count - error_count, file_count)
         return
 
     def __get_date_taken(self, file):
