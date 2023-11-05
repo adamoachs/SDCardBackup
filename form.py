@@ -60,7 +60,8 @@ class BackupForm:
 
     def __do_copy(self):
         """Handler for button click"""
-        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY, 2,
+        hours = float(self.hours_value.get()) + 0.5
+        fh = FileHandler(self.source_selection, config.DESTINATION_ROOT_DIRECTORY, hours,
                          self.on_file_copied_handler, self.on_file_error_handler,
                          self.on_backup_finished_handler, self.on_backup_error_handler)
         thread = Thread(target = fh.do_copy)
@@ -120,12 +121,12 @@ class BackupForm:
         card = self.source_selection
         plat = platform.system().lower()
         if plat == "windows":
-            return
+            return # not concerned about this now as windows won't be used in prod
         else:
             cmd = f"umount \"{card}\""
             os.system(cmd)
             messagebox.showinfo(title = "Finished",
                 message = f"Safely ejected card {card}")
-          
+
     def __close(self):
         self.root.quit()

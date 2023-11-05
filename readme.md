@@ -32,6 +32,15 @@ You will require:
     sudo rm -rf SDCardBackup
     git clone https://github.com/adamoachs/SDCardBackup
 
+# Pulling latest version
+
+To get latest changes but keep config.py, run the following in a terminal: 
+
+    mv SDCardBackup/config.py config.py
+    sudo rm -rf SDCardBackup
+    git clone https://github.com/adamoachs/SDCardBackup
+    mv config.py SDCardBackup/config.py
+
 # Configuration
 
 The `config.py` file contains a few constants, you will need to update these
