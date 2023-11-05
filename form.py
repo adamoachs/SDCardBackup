@@ -112,7 +112,7 @@ class BackupForm:
     def __check_button_reset(self):
         if self.source_selection is not None or self.backup_in_progress is False:
             self.button_start_copy["state"] = "normal"
-            self.button_start_copy["text"] = "Sart copy"
+            self.button_start_copy["text"] = "Start copy"
 
     def __eject_card(self):
         card = self.source_selection
@@ -120,7 +120,8 @@ class BackupForm:
         if plat == "windows":
             return
         else:
-            cmd = f"umount {card}"
+            cmd = f"umount \"{card}\""
         os.system(cmd)
         messagebox.showinfo(title = "Finished",
             message = f"Successfully eject card {card}")
+        exit()

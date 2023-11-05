@@ -25,18 +25,18 @@ You will require:
 1. Assemble the case per manufacturer's instructions
 2. Install a Pi-compatible Linux distro of your choice
 3. Install the touchscreen driver per manufacturer's instruction
-4. TODO: steps on cloning repo
-5. Open a terminal and run the following commands:  
+4. Open a terminal and run the following commands:
 
     pip install psutil
     pip install Pillow
-
+    sudo rm -rf SDCardBackup
+    git clone https://github.com/adamoachs/SDCardBackup
 
 # Configuration
 
 The `config.py` file contains a few constants, you will need to update these
 
-To begin, plug in your removable drive to your Pi, and unplug any other removable drive. Then, open a terminal and enter the following commands:
+To begin, plug in your backup destination drive to your Pi, and unplug all other removable drives. Then, open a terminal and enter the following commands:
 
     python
     import psutil
@@ -45,18 +45,24 @@ To begin, plug in your removable drive to your Pi, and unplug any other removabl
 The terminal will print an array of disk partitions.  
 One of these should your external drive. If it is not listed, ensure it is formatted with a compatible file system.  
 The remaining drives as system partitions, such as boot.
-Update the config consts as follows:
+Using your preferred text editor, open SDCardBackup/config.py and update the config consts as follows:
 
-`DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above  
+`DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above, with optional subdirectories  
   
 `DRIVE_BLACK_LIST` - Enter the `mountpoint` property of ALL the disks returned above. This will exclude them as a backup option  
   
 `FILE_TYPE_WHITE_LIST` - If you shoot in a file format not included, add the file extension here  
-  
 
+# Shortcut
+  
+Create a .sh file on the desktop with the following commands:
+
+    cd [path/to/repo]
+    python main.py
 
 # Use
 
-1. After plugging in external drive and card, launch `main.py`
+1. After plugging in external drive and card, run the script creating in the Shortcut step
 2. Choose your card from the "Select one" dropdown
-3. Click copy.
+3. Select how many hours worth of photos you want to back up
+4. Click copy.
