@@ -29,17 +29,15 @@ You will require:
 - A power/micro USB cable to power the Pi
 - An external SSD or HDD with a USB interface
 - An SD/CF/Multi card reader with a USB interface 
-- A USB keyboard and mouse or your preferred SSH client for setup
+- Your preferred SSH client, or a USB keyboard/mouse and monitor to connect to the Pi, for initial install and config
 
 # Setup
 
 1. Assemble the case per manufacturer's instructions
 2. Install a Pi-compatible Linux distro of your choice
 3. Install the touchscreen driver per manufacturer's instruction
-4. Open a terminal and run the following commands:
+4. Open a terminal and run the following command:
 
-        pip install psutil
-        pip install Pillow
         git clone https://github.com/adamoachs/SDCardBackup.git
 
 # Configuration
@@ -56,7 +54,7 @@ The terminal will print an array of disk partitions.
 One of these should your external drive. If it is not listed, ensure it is formatted with a compatible file system.  
 The remaining drives are system partitions, such as boot.  
   
-Using your preferred text editor, open SDCardBackup/config.py and update the config consts as follows:
+Using your preferred text editor, open /home/[pi_username]/vim SDCardBackup/config.py and update the config consts as follows:
 
 `DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above, with optional subdirectories  
   
@@ -66,16 +64,16 @@ Using your preferred text editor, open SDCardBackup/config.py and update the con
 
 # Shortcut
   
-Create a .desktop shortcut file on the desktop with the following command:
+Create a desktop shortcut with the following command:
 
-    python /path/to/repo/main.py
+    python /home/[pi_username]/vim SDCardBackup/config.py
 
 # Use
 
-1. After plugging in external drive and card, run the script created in the Shortcut step (or run `python /path/to/repo/main.py` however else you prefer)
+1. After plugging in external drive and card, run the script created in the Shortcut step (or run `python /home/[pi_username]/vim SDCardBackup/config.py` however else you prefer)
 2. Choose your card from the "Select one" dropdown
 3. Select how many hours worth of photos you want to back up
 4. Click Start Copy.
 5. The Start Copy button will disable, and the text will change to monitor progress as files are copied over.
 6. When the backup job is finished, you will a message telling you how many files were copied, and a message that your card was safely ejected
-7. Remove your card and carry on with your door
+7. Remove your card and carry on with your day
