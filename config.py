@@ -3,7 +3,7 @@
 # Root directory to backup files to
 DESTINATION_ROOT_DIRECTORY = "F:\\"
 
-# rives to exclude from importing
+# drives to exclude from importing
 DRIVE_BLACK_LIST = ["C:\\", "D:\\", "F:\\"]
 
 # file types to allow

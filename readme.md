@@ -40,7 +40,7 @@ You will require:
 
         pip install psutil
         pip install Pillow
-        git clone https://github.com/adamoachs/SDCardBackup
+        git clone https://github.com/adamoachs/SDCardBackup.git
 
 # Configuration
 
