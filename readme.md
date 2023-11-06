@@ -18,7 +18,6 @@ This readme will guide you through setting up and using the SD Card Backup Utili
 - Can be powered off any 5v2a USB power source such as power bank or wall adapter
 - Excluding external storage and card readers, costs < $100
 - Fully open source and free software
-- 
 
 # Bill of materials
 
@@ -39,10 +38,10 @@ You will require:
 3. Install the touchscreen driver per manufacturer's instruction
 4. Open a terminal and run the following commands:
 
-    pip install psutil
-    pip install Pillow
-    sudo rm -rf SDCardBackup
-    git clone https://github.com/adamoachs/SDCardBackup
+        pip install psutil
+        pip install Pillow
+        sudo rm -rf SDCardBackup
+        git clone https://github.com/adamoachs/SDCardBackup
 
 # Configuration
 
