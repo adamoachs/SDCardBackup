@@ -18,6 +18,7 @@ class BackupForm:
         root.title("Card Backup")
         root.maxsize(400, 200)
         root.minsize(400, 200)
+        root.protocol("WM_DELETE_WINDOW", self.__close)
 
         # Card select dropdown
         var = StringVar(root)
@@ -129,4 +130,5 @@ class BackupForm:
                 message = f"Safely ejected card {card}")
 
     def __close(self):
-        self.root.quit()
+        if self.backup_in_progress is False:
+            self.root.quit()
