@@ -5,9 +5,9 @@ As the Photography Department Director for a number of conventions, I have on oc
 Such a solution had a number of requirements that made any existing product I found on the market not fit my needs. These requirements were:
 - Must be stand standalone, not requiring the use of a laptop or phone in any way
 - Must be made by a company that still exists
-- Must not be crazy expensive. 
-No commercial product that fit these needs was found, thus a homebrew solution was developed.
-
+- Must not be crazy expensive  
+ 
+No commercial product that fit these needs was found, thus a homebrew solution was developed.  
 This SD Card Backup Utility was created to fill that purpose. It is intended to run on a Raspberry Pi with a small built in touchscreen screen. By connecting a card reader and external HDD/SSD to the Pi, you just need to plug in the card and run the script
 
 This readme will guide you through setting up and using the SD Card Backup Utility. It assumes a basic knowledge of Raspberry Pi setup, as well as Linux desktop and terminal
@@ -54,7 +54,7 @@ The terminal will print an array of disk partitions.
 One of these should your external drive. If it is not listed, ensure it is formatted with a compatible file system.  
 The remaining drives are system partitions, such as boot.  
   
-Using your preferred text editor, open /home/[pi_username]/vim SDCardBackup/config.py and update the config consts as follows:
+Using your preferred text editor, open /home/[pi_username]/SDCardBackup/config.py and update the config consts as follows:
 
 `DESTINATION_ROOT_DIRECTORY` - The absolute path of the directory you want photos backed up to. This should start with the `mountpoint` property of your external drive, as returned above, with optional subdirectories  
   
@@ -66,11 +66,11 @@ Using your preferred text editor, open /home/[pi_username]/vim SDCardBackup/conf
   
 Create a desktop shortcut with the following command:
 
-    python /home/[pi_username]/vim SDCardBackup/config.py
+    python /home/[pi_username]/SDCardBackup/main.py
 
 # Use
 
-1. After plugging in external drive and card, run the script created in the Shortcut step (or run `python /home/[pi_username]/vim SDCardBackup/config.py` however else you prefer)
+1. After plugging in external drive and card, run the script created in the Shortcut step (or run `python /home/[pi_username]/SDCardBackup/main.py` however else you prefer)
 2. Choose your card from the "Select one" dropdown
 3. Select how many hours worth of photos you want to back up
 4. Click Start Copy.
