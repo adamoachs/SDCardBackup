@@ -40,6 +40,10 @@ You will require:
 
         git clone https://github.com/adamoachs/SDCardBackup.git
 
+5.  You will then need to install the Python requirements from `requirements.txt`. This can be done with the following command:
+
+        pip install -r /home/[pi_username]/SDCardBackup/requirements.txt
+
 # Configuration
 
 The `config.py` file contains a few constants, you will need to update these
