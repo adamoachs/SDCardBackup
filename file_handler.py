@@ -26,8 +26,7 @@ class FileHandler:
         if len(files) == 0:
             return
 
-        # only filter by date if a filter has been provided,
-        # and the photos actually have the appropriate EXIF data
+        # only filter by date if a filter has been provided
         if self.hours_filter is not None and self.__file_has_date_taken(files[0]):
             files = self.__filter_photos_by_date_taken(files)
 
@@ -60,16 +59,14 @@ class FileHandler:
         return
 
     def __get_date_taken(self, file):
-        """Get date taken from file's EXIF data"""
-        # https://exiv2.org/tags.html
-        with Image.open(file) as img:
-            if not img.tag:
-                raise Exception(f'Image {file} does not have EXIF data.')
-            if not 36867 in img.tag:
-                raise Exception(f'Image {file} does not have DateTimeOriginal EXIF tag.')
-
-            date =  datetime.strptime(img.tag[36867][0], "%Y:%m:%d %H:%M:%S")
-            return date
+        """Get file date"""
+        # changed to use the file date instead of EXIF date taken, 
+        # to eliminate risk of certain formats not being supported
+        # Use modified date instead of created date, because created date is not accessible in Linux
+        # (https://stackoverflow.com/a/39501288)
+        epoch_time = file.stat().st_mtime
+        dt = datetime.fromtimestamp(epoch_time)
+        return dt
 
     def __file_has_date_taken(self, file):
         """Check whether file has date taken exif data"""

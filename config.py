@@ -1,13 +1,14 @@
 """Settings"""
 
 # Root directory to backup files to
-DESTINATION_ROOT_DIRECTORY = "F:\\"
+DESTINATION_ROOT_DIRECTORY = "E:\\"
 
 # drives to exclude from importing
-DRIVE_BLACK_LIST = ["C:\\", "D:\\", "F:\\"]
+DRIVE_BLACK_LIST = ["C:\\", "D:\\", "E:\\"]
 
 # file types to allow
-FILE_TYPE_WHITE_LIST = [".jpg", ".jpeg", ".dng", ".nef", ".crw", ".arw", ".pef", ".orf", ".rw2"]
+FILE_TYPE_WHITE_LIST = [".jpg", ".jpeg", ".dng", ".nef", ".crw", ".arw",
+                        ".pef", ".orf", ".rw2", ".tiff", ".cr2", ".cr3"]
 
 # how much to increment/decrement the hours spinbox
 HOURS_INCREMENT = 0.5
