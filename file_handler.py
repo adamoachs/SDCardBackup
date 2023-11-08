@@ -4,7 +4,6 @@ import shutil
 import os
 from pathlib import Path
 from datetime import datetime, timedelta
-from PIL import Image
 import config
 
 class FileHandler:
