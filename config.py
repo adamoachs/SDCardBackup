@@ -8,7 +8,8 @@ DRIVE_BLACK_LIST = ["C:\\", "D:\\", "E:\\"]
 
 # file types to allow
 FILE_TYPE_WHITE_LIST = [".jpg", ".jpeg", ".dng", ".nef", ".crw", ".arw",
-                        ".pef", ".orf", ".rw2", ".tiff", ".cr2", ".cr3"]
+                        ".pef", ".orf", ".rw2", ".tiff", ".cr2", ".cr3",
+                        ".raf"]
 
 # how much to increment/decrement the hours spinbox
 HOURS_INCREMENT = 0.5
